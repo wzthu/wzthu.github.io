@@ -1,0 +1,71 @@
+---
+title: "esATAC Analysis Reports Gallery"
+author: "Zheng Wei and Wei Zhang"
+date: "`r Sys.Date()`"
+output: 
+    html_document:
+        df_print: paged
+        toc: true
+        toc_float: true
+        number_sections: true
+        fig_height: 3.5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Introduction
+
+#Single Replicate Case
+
+## Short Example in esATAC package
+
+
+```{r eval=FALSE}
+conclusion <-
+  atacPipe(
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       fastqInput1 = system.file(package="esATAC", "extdata", "chr20_1.1.fq.gz"),
+       fastqInput2 = system.file(package="esATAC", "extdata", "chr20_2.1.fq.gz"),
+       # MODIFY: Set the genome for your data
+       genome = "hg19",
+       motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
+```
+
+
+## Example of GM12878/hg19 from GEO
+
+#Single Replicate Case and Control
+
+## Short Example in esATAC package
+```{r eval=FALSE}
+conclusion <-
+   atacPipe2(
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       case=list(fastqInput1 = system.file(package="esATAC", "extdata", "chr20_1.1.fq.gz"),
+                fastqInput2 = system.file(package="esATAC", "extdata", "chr20_2.1.fq.gz")),
+       # MODIFY: Change these paths to your own control files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       control=list(fastqInput1 = system.file(package="esATAC", "extdata", "chr20_1.2.fq.bz2"),
+                    fastqInput2 = system.file(package="esATAC", "extdata", "chr20_2.2.fq.bz2")),
+       # MODIFY: Set the genome for your data
+       genome = "hg19",
+       motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
+```
+
+## Example of T cells/mm10 from GEO
+
+#Multiable Replicate Case
+
+## Example of GM12878/hg19 from GEO
+
+## Example of T cells/mm10 from GEO
+
+#Multiable Replicate Case and Control
+
+## Example of T cells/mm10 from GEO
+ 
+#Reference
