@@ -12,17 +12,27 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,eval = FALSE)
 ```
 
 #Introduction
 
+This page is to exhibit examples and results for 4 preset pipeline in esATAC pakcage. For each pipeline, the toy example in the package document and at least one example run on representative dataset will be shown. In the examples, the directory for storing genome annotation is "~/ref". Only report files(HTML files and their relative files) will be linked and shown.
+
 #Single Replicate Case
 
-## Short Example in esATAC package
+## Example in esATAC package
 
+### Dataset
+
+The datasets in this package (esATAC/extdata/) are generated from GEO: SRR891271 (from GSE47753)[1]. The data is ATAC-seq paired end sequencing for GM12878 cell line. We random sampling 20000 mapped fragments from chr20 and rebuild raw paired-end FASTQ files(file names with chr20 prefix).
+
+### Script
+
+[Download the script](./pkgC/script.R)
 
 ```{r eval=FALSE}
+library(esATAC)
 conclusion <-
   atacPipe(
        # MODIFY: Change these paths to your own case files!
@@ -31,16 +41,54 @@ conclusion <-
        fastqInput2 = system.file(package="esATAC", "extdata", "chr20_2.1.fq.gz"),
        # MODIFY: Set the genome for your data
        genome = "hg19",
+       refdir = "~/ref",
        motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
 ```
+### Result
 
+[Click here to see esATAC Report](./pkgC/esATAC_report/Report.html)
 
 ## Example of GM12878/hg19 from GEO
 
+### Data Description
+
+The real dataset is from GEO (accession number [GSE47753](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753), Buenrostro, et al., 2013).We downloaded 
+[SRR891268.sra](ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891268/SRR891268.sra) which is one of four replicates of ATAC-seq paired end sequencing data from human GM12878 cell line containing nearly 400M paired end reads in total. 
+
+### Data Preprocess
+
+And then, we used [NCBI SRA Toolkit](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software) to extract FASTQ files with command like `fastq-dump --split-3 SRR8912XX.sra`. Eight FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq, SRR891269_1.fastq, SRR891269_2.fastq, SRR891270_1.fastq, SRR891270_2.fastq, SRR891271_1.fastq, SRR891271_2.fastq) under current working directory. 
+
+### R Scripts
+
+
+```{r}
+library(esATAC)
+
+conclusion <- 
+  atacPipe(
+    fastqInput1 = "SRR891268_1.fastq",
+    fastqInput2 = "SRR891268_2.fastq",
+    genome = "hg19",
+    threads = 28,
+    refdir = "~/ref")
+```
+
+
 #Single Replicate Case and Control
 
-## Short Example in esATAC package
+## Example in esATAC package
+
+### Dataset
+
+The datasets in this package (esATAC/extdata/) are generated from GEO: SRR891271 (from GSE47753)[1]. The data is ATAC-seq paired end sequencing for GM12878 cell line. We random sampling 20000 mapped fragments from chr20 and rebuild raw paired-end FASTQ files(file names with chr20 prefix).
+
+### Script
+
+[Download the script](./pkgCC/script.R)
+
 ```{r eval=FALSE}
+library(esATAC)
 conclusion <-
    atacPipe2(
        # MODIFY: Change these paths to your own case files!
@@ -53,18 +101,109 @@ conclusion <-
                     fastqInput2 = system.file(package="esATAC", "extdata", "chr20_2.2.fq.bz2")),
        # MODIFY: Set the genome for your data
        genome = "hg19",
+       refdir = "~/ref",
+       motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
+```
+### Result
+
+[Click here to see esATAC Report](./pkgCC/esATAC_report/Report2.html)
+
+## Example of T cells/mm10 from GEO
+
+#Multiable Replicates Case
+
+## Example in esATAC Package
+
+
+### Dataset
+
+The datasets in this package (esATAC/extdata/) are generated from GEO: SRR891271 (from GSE47753)[1]. The data is ATAC-seq paired end sequencing for GM12878 cell line. We random sampling 20000 mapped fragments from chr20 and rebuild raw paired-end FASTQ files(file names with chr20 prefix).
+
+### Script
+
+[Download the script](./pkgRepC/script.R)
+
+```{r}
+library(esATAC)
+
+conclusion <-
+  atacRepsPipe(
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       fastqInput1 = list(system.file(package="esATAC", "extdata", "chr20_1.1.fq.gz"),
+                          system.file(package="esATAC", "extdata", "chr20_1.2.fq.bz2")),
+       fastqInput2 = list(system.file(package="esATAC", "extdata", "chr20_2.1.fq.gz"),
+                          system.file(package="esATAC", "extdata", "chr20_2.2.fq.bz2")),
+       # MODIFY: Set the genome for your data
+       genome = "hg19",
+       refdir = "~/ref",
        motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
 ```
 
-## Example of T cells/mm10 from GEO
+### Result
 
-#Multiable Replicate Case
+[Click here to see esATAC Report](./pkgRepC/esATAC_report/Report.html)
+
 
 ## Example of GM12878/hg19 from GEO
 
+### Data Description
+
+To test on real data from GEO (accession number [GSE47753](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753), Buenrostro, et al., 2013), we downloaded
+[SRR891268.sra](ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891268/SRR891268.sra),[SRR891269.sra](ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891269/SRR891269.sra),[SRR891270.sra](ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891270/SRR891270.sra) and[SRR891271.sra](ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891271/SRR891271.sra). They are 4 replicates of ATAC-seq paired end sequencing data from human GM12878 cell line containing nearly 400M paired end reads in total.
+
+### Data Preprocess
+
+And then, we used [NCBI SRA Toolkit](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software) to extract FASTQ files with command like `fastq-dump --split-3 SRR8912XX.sra`. Eight FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq, SRR891269_1.fastq, SRR891269_2.fastq, SRR891270_1.fastq, SRR891270_2.fastq, SRR891271_1.fastq, SRR891271_2.fastq) under current working directory. 
+
+
+
+
 ## Example of T cells/mm10 from GEO
 
-#Multiable Replicate Case and Control
+#Multiable Replicates Case and Control
+
+# Example in esATAC package
+
+### Dataset
+
+The datasets in this package (esATAC/extdata/) are generated from GEO: SRR891271 (from GSE47753)[1]. The data is ATAC-seq paired end sequencing for GM12878 cell line. We random sampling 20000 mapped fragments from chr20 and rebuild raw paired-end FASTQ files(file names with chr20 prefix).
+
+### Script
+
+[Download the script](./pkgRepCC/script.R)
+
+
+```{r}
+library(esATAC)
+
+conclusion <-
+    atacRepsPipe2(
+        # MODIFY: Change these paths to your own case files!
+        # e.g. fastqInput1 = "your/own/data/path.fastq"
+     caseFastqInput1=list(system.file(package="esATAC", "extdata", "chr20_1.1.fq.gz"),
+                          system.file(package="esATAC", "extdata", "chr20_1.1.fq.gz")),
+     # MODIFY: Change these paths to your own case files!
+     # e.g. fastqInput1 = "your/own/data/path.fastq"
+     caseFastqInput2=list(system.file(package="esATAC", "extdata", "chr20_2.1.fq.gz"),
+                          system.file(package="esATAC", "extdata", "chr20_2.1.fq.gz")),
+     # MODIFY: Change these paths to your own control files!
+     # e.g. fastqInput1 = "your/own/data/path.fastq"
+     ctrlFastqInput1=list(system.file(package="esATAC", "extdata", "chr20_1.2.fq.bz2"),
+                          system.file(package="esATAC", "extdata", "chr20_1.2.fq.bz2")),
+     # MODIFY: Change these paths to your own control files!
+     # e.g. fastqInput1 = "your/own/data/path.fastq"
+     ctrlFastqInput2=list(system.file(package="esATAC", "extdata", "chr20_2.2.fq.bz2"),
+                          system.file(package="esATAC", "extdata", "chr20_2.2.fq.bz2")),
+     # MODIFY: Set the genome for your data
+     genome = "hg19",
+     refdir = "~/ref",
+     motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
+```
+### Result
+
+[Click here to see esATAC Report](./pkgRepCC/esATAC_report/Report.html)
+
 
 ## Example of T cells/mm10 from GEO
  
