@@ -216,7 +216,7 @@ conclusion <-
 
 # Case and Control Sample with Replicates
 
-# Example in esATAC package
+## Example in esATAC package
 
 ### Dataset
 
