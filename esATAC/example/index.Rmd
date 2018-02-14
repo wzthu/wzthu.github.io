@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE,eval = FALSE)
 
 This page is to exhibit examples and results for 4 preset pipeline in esATAC pakcage. For each pipeline, the toy example in the package document and at least one example run on representative dataset will be shown. In the examples, the directory for storing genome annotation is "~/ref". Only report files(HTML files and their relative files) will be linked and shown.
 
-#Single Replicate Case
+#Single Sample
 
 ## Example in esATAC package
 
@@ -57,10 +57,11 @@ The real dataset is from GEO (accession number [GSE47753](http://www.ncbi.nlm.ni
 
 ### Data Preprocess
 
-And then, we used [NCBI SRA Toolkit](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software) to extract FASTQ files with command like `fastq-dump --split-3 SRR8912XX.sra`. Eight FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq, SRR891269_1.fastq, SRR891269_2.fastq, SRR891270_1.fastq, SRR891270_2.fastq, SRR891271_1.fastq, SRR891271_2.fastq) under current working directory. 
+And then, we used [NCBI SRA Toolkit](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software) to extract FASTQ files with command like `fastq-dump --split-3 SRR8912XX.sra`. Two FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq) under current working directory. 
 
 ### R Scripts
 
+[Download the script](./hg19C/script.R)
 
 ```{r}
 library(esATAC)
@@ -73,9 +74,12 @@ conclusion <-
     threads = 28,
     refdir = "~/ref")
 ```
+### Result
+
+[Click here to see esATAC Report](./hg19C/esATAC_report/Report.html)
 
 
-#Single Replicate Case and Control
+# Case and Control Single Sample
 
 ## Example in esATAC package
 
@@ -110,7 +114,37 @@ conclusion <-
 
 ## Example of T cells/mm10 from GEO
 
-#Multiable Replicates Case
+### Dataset Description
+
+The dataset is from GEO((assertion number GSE88987). All of them are from mouse. We can use GSM2356780 as case and GSM2356795 as control to run esATAC._
+
+### Data preprocess
+
+Download raw data from GEO(assertion number GSE88987 - GSM2356780: SRR4435490.sra) and (GSM2356795: SRR4435505.sra)).And then, Use NCBI SRA Toolkit to extract fastq files with command like fastq-dump --split-3 SRR44354XX.sra. Four files will be generated (SRR4435490_1.fastq, SRR4435490_2.fastq, SRR4435505_1.fastq, SRR4435505_2.fastq).
+
+### Script
+
+[Download the script](./mm10CC/script.R)
+
+```{r}
+library(esATAC)
+conclusion2 <-
+    atacPipe2(
+        case=list(fastqInput1 = "./SRR4435490_1.fastq", #case mate1 file at current working directory
+                  fastqInput2 = "./SRR4435490_2.fastq"), #case mate2 file at current working directory
+        control=list(fastqInput1 = "./SRR4435505_1.fastq", #control mate1 file at current working directory
+                     fastqInput2 = "./SRR4435505_2.fastq"), #control mate2 file at current working directory
+        genome = "mm10", #hg19/hg38/mm9/mm10
+        refdir = "~/ref",
+        motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE)) #scan single motif CTCF
+```
+
+### Result
+
+[Click here to see esATAC Report](./mm10CC/esATAC_report/Report2.html)
+
+
+# Sample with Replicates
 
 ## Example in esATAC Package
 
@@ -147,6 +181,7 @@ conclusion <-
 
 ## Example of GM12878/hg19 from GEO
 
+
 ### Data Description
 
 To test on real data from GEO (accession number [GSE47753](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753), Buenrostro, et al., 2013), we downloaded
@@ -157,11 +192,29 @@ To test on real data from GEO (accession number [GSE47753](http://www.ncbi.nlm.n
 And then, we used [NCBI SRA Toolkit](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&f=software&m=software&s=software) to extract FASTQ files with command like `fastq-dump --split-3 SRR8912XX.sra`. Eight FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq, SRR891269_1.fastq, SRR891269_2.fastq, SRR891270_1.fastq, SRR891270_2.fastq, SRR891271_1.fastq, SRR891271_2.fastq) under current working directory. 
 
 
+### Script
+
+[Download the script](./hg19RepC/script.R)
+
+```{r}
+options(java.parameters = "-Xmx8000m")
+library(esATAC)
+
+conclusion <-
+  atacRepsPipe(
+    fastqInput1 = list("SRR891268_1.fastq", "SRR891269_1.fastq", "SRR891270_1.fastq", "SRR891271_1.fastq"),
+    fastqInput2 = list("SRR891268_2.fastq", "SRR891269_2.fastq", "SRR891270_2.fastq", "SRR891271_2.fastq"),
+    genome = "hg19",
+    threads = 28)
+```
+
+### Result
+
+[Click here to see esATAC Report](./hg19RepC/esATAC_report/Report.html)
 
 
-## Example of T cells/mm10 from GEO
 
-#Multiable Replicates Case and Control
+# Case and Control Sample with Replicates
 
 # Example in esATAC package
 
@@ -205,6 +258,55 @@ conclusion <-
 [Click here to see esATAC Report](./pkgRepCC/esATAC_report/Report.html)
 
 
+
 ## Example of T cells/mm10 from GEO
+
+### Dataset Description
+
+The dataset is from GEO((assertion number GSE88987). All of them are from mouse. We can use GSM2356780, GSM2356781 as case and GSM2356795, GSM2356796  as control to run esATAC.
+
+### Data preprocess
+
+Download raw data from GEO(assertion number GSE88987 - (GSM2356780: SRR4435490.sra), (GSM2356781: SRR4435491.sra), (GSM2356795: SRR4435505.sra) and (GSM2356796: SRR4435506.sra)).And then, Use NCBI SRA Toolkit to extract fastq files with command like fastq-dump --split-3 SRR44354XX.sra. Eight files will be generated (SRR4435490_1.fastq, SRR4435490_2.fastq,SRR4435491_1.fastq, SRR4435491_2.fastq, SRR4435505_1.fastq, SRR4435505_2.fastq, SRR4435506_1.fastq, SRR4435506_2.fastq).
+
+### Script
+
+[Download the script](./mm10RepCC/script.R)
+
+```{r}
+library(esATAC)
+conclusion <-
+   atacRepsPipe2(
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       caseFastqInput1=list("./SRR4435490_1.fastq",
+                            "./SRR4435491_1.fastq"),
+       # MODIFY: Change these paths to your own control files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       caseFastqInput2=list("./SRR4435490_2.fastq",
+                            "./SRR4435491_2.fastq"),
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       ctrlFastqInput1=list("./SRR4435505_1.fastq",
+                            "./SRR4435506_1.fastq"),
+       # MODIFY: Change these paths to your own control files!
+       # e.g. fastqInput1 = "your/own/data/path.fastq"
+       ctrlFastqInput2=list("./SRR4435505_2.fastq",
+                            "./SRR4435506_2.fastq"),
+       # MODIFY: Set the genome for your data
+       genome = "mm10",
+       refdir = "~/ref",
+       threads=28,
+       motifPWM = getMotifPWM(motif.file = system.file("extdata", "CTCF.txt", package="esATAC"), is.PWM = FALSE))
+
+```
+### Result
+
+[Click here to see esATAC Report](./mm10RepCC/esATAC_report/Report.html)
+
  
 #Reference
+
+[1] Buenrostro, J. D., Giresi, P. G., Zaba, L. C., Chang, H. Y., & Greenleaf, W. J. (2013). Transposition of native chromatin for fast and sensitive epigenomic profiling of open chromatin, DNA-binding proteins and nucleosome position. Nature methods, 10(12), 1213-1218.
+
+[2] Mognol GP, Spreafico R, Wong V, Scott-Browne JP et al. Exhaustion-associated regulatory regions in CD8+ tumor-infiltrating T cells. Proc Natl Acad Sci U S A 2017 Mar 28;114(13):E2776-E2785. PMID: 28283662

@@ -230,8 +230,8 @@ div.tocify {
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>This page is to exhibit examples and results for 4 preset pipeline in esATAC pakcage. For each pipeline, the toy example in the package document and at least one example run on representative dataset will be shown. In the examples, the directory for storing genome annotation is “~/ref”. Only report files(HTML files and their relative files) will be linked and shown.</p>
 </div>
-<div id="single-replicate-case" class="section level1">
-<h1><span class="header-section-number">2</span> Single Replicate Case</h1>
+<div id="single-sample" class="section level1">
+<h1><span class="header-section-number">2</span> Single Sample</h1>
 <div id="example-in-esatac-package" class="section level2">
 <h2><span class="header-section-number">2.1</span> Example in esATAC package</h2>
 <div id="dataset" class="section level3">
@@ -266,11 +266,11 @@ conclusion &lt;-
 </div>
 <div id="data-preprocess" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> Data Preprocess</h3>
-<p>And then, we used <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&amp;f=software&amp;m=software&amp;s=software">NCBI SRA Toolkit</a> to extract FASTQ files with command like <code>fastq-dump --split-3 SRR8912XX.sra</code>. Eight FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq, SRR891269_1.fastq, SRR891269_2.fastq, SRR891270_1.fastq, SRR891270_2.fastq, SRR891271_1.fastq, SRR891271_2.fastq) under current working directory.</p>
+<p>And then, we used <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&amp;f=software&amp;m=software&amp;s=software">NCBI SRA Toolkit</a> to extract FASTQ files with command like <code>fastq-dump --split-3 SRR8912XX.sra</code>. Two FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq) under current working directory.</p>
 </div>
 <div id="r-scripts" class="section level3">
 <h3><span class="header-section-number">2.2.3</span> R Scripts</h3>
-<p>In this example, we use `</p>
+<p><a href="./hg19C/script.R">Download the script</a></p>
 <pre class="r"><code>library(esATAC)
 
 conclusion &lt;- 
@@ -281,10 +281,14 @@ conclusion &lt;-
     threads = 28,
     refdir = &quot;~/ref&quot;)</code></pre>
 </div>
+<div id="result-1" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Result</h3>
+<p><a href="./hg19C/esATAC_report/Report.html">Click here to see esATAC Report</a></p>
 </div>
 </div>
-<div id="single-replicate-case-and-control" class="section level1">
-<h1><span class="header-section-number">3</span> Single Replicate Case and Control</h1>
+</div>
+<div id="case-and-control-single-sample" class="section level1">
+<h1><span class="header-section-number">3</span> Case and Control Single Sample</h1>
 <div id="example-in-esatac-package-1" class="section level2">
 <h2><span class="header-section-number">3.1</span> Example in esATAC package</h2>
 <div id="dataset-1" class="section level3">
@@ -310,24 +314,50 @@ conclusion &lt;-
        refdir = &quot;~/ref&quot;,
        motifPWM = getMotifPWM(motif.file = system.file(&quot;extdata&quot;, &quot;CTCF.txt&quot;, package=&quot;esATAC&quot;), is.PWM = FALSE))</code></pre>
 </div>
-<div id="result-1" class="section level3">
+<div id="result-2" class="section level3">
 <h3><span class="header-section-number">3.1.3</span> Result</h3>
-<p><a href="./pkgCC/esATAC_report/Report.html">Click here to see esATAC Report</a></p>
+<p><a href="./pkgCC/esATAC_report/Report2.html">Click here to see esATAC Report</a></p>
 </div>
 </div>
 <div id="example-of-t-cellsmm10-from-geo" class="section level2">
 <h2><span class="header-section-number">3.2</span> Example of T cells/mm10 from GEO</h2>
+<div id="dataset-description" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Dataset Description</h3>
+<p>The dataset is from GEO((assertion number GSE88987). All of them are from mouse. We can use GSM2356780 as case and GSM2356795 as control to run esATAC._</p>
+</div>
+<div id="data-preprocess-1" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Data preprocess</h3>
+<p>Download raw data from GEO(assertion number GSE88987 - GSM2356780: SRR4435490.sra) and (GSM2356795: SRR4435505.sra)).And then, Use NCBI SRA Toolkit to extract fastq files with command like fastq-dump –split-3 SRR44354XX.sra. Four files will be generated (SRR4435490_1.fastq, SRR4435490_2.fastq, SRR4435505_1.fastq, SRR4435505_2.fastq).</p>
+</div>
+<div id="script-2" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Script</h3>
+<p><a href="./mm10CC/script.R">Download the script</a></p>
+<pre class="r"><code>library(esATAC)
+conclusion2 &lt;-
+    atacPipe2(
+        case=list(fastqInput1 = &quot;./SRR4435490_1.fastq&quot;, #case mate1 file at current working directory
+                  fastqInput2 = &quot;./SRR4435490_2.fastq&quot;), #case mate2 file at current working directory
+        control=list(fastqInput1 = &quot;./SRR4435505_1.fastq&quot;, #control mate1 file at current working directory
+                     fastqInput2 = &quot;./SRR4435505_2.fastq&quot;), #control mate2 file at current working directory
+        genome = &quot;mm10&quot;, #hg19/hg38/mm9/mm10
+        refdir = &quot;~/ref&quot;,
+        motifPWM = getMotifPWM(motif.file = system.file(&quot;extdata&quot;, &quot;CTCF.txt&quot;, package=&quot;esATAC&quot;), is.PWM = FALSE)) #scan single motif CTCF</code></pre>
+</div>
+<div id="result-3" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Result</h3>
+<p><a href="./mm10CC/esATAC_report/Report2.html">Click here to see esATAC Report</a></p>
 </div>
 </div>
-<div id="multiable-replicates-case" class="section level1">
-<h1><span class="header-section-number">4</span> Multiable Replicates Case</h1>
+</div>
+<div id="sample-with-replicates" class="section level1">
+<h1><span class="header-section-number">4</span> Sample with Replicates</h1>
 <div id="example-in-esatac-package-2" class="section level2">
 <h2><span class="header-section-number">4.1</span> Example in esATAC Package</h2>
 <div id="dataset-2" class="section level3">
 <h3><span class="header-section-number">4.1.1</span> Dataset</h3>
 <p>The datasets in this package (esATAC/extdata/) are generated from GEO: SRR891271 (from GSE47753)[1]. The data is ATAC-seq paired end sequencing for GM12878 cell line. We random sampling 20000 mapped fragments from chr20 and rebuild raw paired-end FASTQ files(file names with chr20 prefix).</p>
 </div>
-<div id="script-2" class="section level3">
+<div id="script-3" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> Script</h3>
 <p><a href="./pkgRepC/script.R">Download the script</a></p>
 <pre class="r"><code>library(esATAC)
@@ -345,7 +375,7 @@ conclusion &lt;-
        refdir = &quot;~/ref&quot;,
        motifPWM = getMotifPWM(motif.file = system.file(&quot;extdata&quot;, &quot;CTCF.txt&quot;, package=&quot;esATAC&quot;), is.PWM = FALSE))</code></pre>
 </div>
-<div id="result-2" class="section level3">
+<div id="result-4" class="section level3">
 <h3><span class="header-section-number">4.1.3</span> Result</h3>
 <p><a href="./pkgRepC/esATAC_report/Report.html">Click here to see esATAC Report</a></p>
 </div>
@@ -356,17 +386,31 @@ conclusion &lt;-
 <h3><span class="header-section-number">4.2.1</span> Data Description</h3>
 <p>To test on real data from GEO (accession number <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE47753">GSE47753</a>, Buenrostro, et al., 2013), we downloaded <a href="ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891268/SRR891268.sra">SRR891268.sra</a>,<a href="ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891269/SRR891269.sra">SRR891269.sra</a>,<a href="ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891270/SRR891270.sra">SRR891270.sra</a> and<a href="ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP024/SRP024293/SRR891271/SRR891271.sra">SRR891271.sra</a>. They are 4 replicates of ATAC-seq paired end sequencing data from human GM12878 cell line containing nearly 400M paired end reads in total.</p>
 </div>
-<div id="data-preprocess-1" class="section level3">
+<div id="data-preprocess-2" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Data Preprocess</h3>
 <p>And then, we used <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?cmd=show&amp;f=software&amp;m=software&amp;s=software">NCBI SRA Toolkit</a> to extract FASTQ files with command like <code>fastq-dump --split-3 SRR8912XX.sra</code>. Eight FASTQ files will be generated (SRR891268_1.fastq, SRR891268_2.fastq, SRR891269_1.fastq, SRR891269_2.fastq, SRR891270_1.fastq, SRR891270_2.fastq, SRR891271_1.fastq, SRR891271_2.fastq) under current working directory.</p>
 </div>
+<div id="script-4" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Script</h3>
+<p><a href="./hg19RepC/script.R">Download the script</a></p>
+<pre class="r"><code>options(java.parameters = &quot;-Xmx8000m&quot;)
+library(esATAC)
+
+conclusion &lt;-
+  atacRepsPipe(
+    fastqInput1 = list(&quot;SRR891268_1.fastq&quot;, &quot;SRR891269_1.fastq&quot;, &quot;SRR891270_1.fastq&quot;, &quot;SRR891271_1.fastq&quot;),
+    fastqInput2 = list(&quot;SRR891268_2.fastq&quot;, &quot;SRR891269_2.fastq&quot;, &quot;SRR891270_2.fastq&quot;, &quot;SRR891271_2.fastq&quot;),
+    genome = &quot;hg19&quot;,
+    threads = 28)</code></pre>
 </div>
-<div id="example-of-t-cellsmm10-from-geo-1" class="section level2">
-<h2><span class="header-section-number">4.3</span> Example of T cells/mm10 from GEO</h2>
+<div id="result-5" class="section level3">
+<h3><span class="header-section-number">4.2.4</span> Result</h3>
+<p><a href="./hg19RepC/esATAC_report/Report.html">Click here to see esATAC Report</a></p>
 </div>
 </div>
-<div id="multiable-replicates-case-and-control" class="section level1">
-<h1><span class="header-section-number">5</span> Multiable Replicates Case and Control</h1>
+</div>
+<div id="case-and-control-sample-with-replicates" class="section level1">
+<h1><span class="header-section-number">5</span> Case and Control Sample with Replicates</h1>
 </div>
 <div id="example-in-esatac-package-3" class="section level1">
 <h1><span class="header-section-number">6</span> Example in esATAC package</h1>
@@ -374,7 +418,7 @@ conclusion &lt;-
 <h3><span class="header-section-number">6.0.1</span> Dataset</h3>
 <p>The datasets in this package (esATAC/extdata/) are generated from GEO: SRR891271 (from GSE47753)[1]. The data is ATAC-seq paired end sequencing for GM12878 cell line. We random sampling 20000 mapped fragments from chr20 and rebuild raw paired-end FASTQ files(file names with chr20 prefix).</p>
 </div>
-<div id="script-3" class="section level3">
+<div id="script-5" class="section level3">
 <h3><span class="header-section-number">6.0.2</span> Script</h3>
 <p><a href="./pkgRepCC/script.R">Download the script</a></p>
 <pre class="r"><code>library(esATAC)
@@ -402,16 +446,58 @@ conclusion &lt;-
      refdir = &quot;~/ref&quot;,
      motifPWM = getMotifPWM(motif.file = system.file(&quot;extdata&quot;, &quot;CTCF.txt&quot;, package=&quot;esATAC&quot;), is.PWM = FALSE))</code></pre>
 </div>
-<div id="result-3" class="section level3">
+<div id="result-6" class="section level3">
 <h3><span class="header-section-number">6.0.3</span> Result</h3>
 <p><a href="./pkgRepCC/esATAC_report/Report.html">Click here to see esATAC Report</a></p>
 </div>
-<div id="example-of-t-cellsmm10-from-geo-2" class="section level2">
+<div id="example-of-t-cellsmm10-from-geo-1" class="section level2">
 <h2><span class="header-section-number">6.1</span> Example of T cells/mm10 from GEO</h2>
+<div id="dataset-description-1" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Dataset Description</h3>
+<p>The dataset is from GEO((assertion number GSE88987). All of them are from mouse. We can use GSM2356780, GSM2356781 as case and GSM2356795, GSM2356796 as control to run esATAC.</p>
+</div>
+<div id="data-preprocess-3" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Data preprocess</h3>
+<p>Download raw data from GEO(assertion number GSE88987 - (GSM2356780: SRR4435490.sra), (GSM2356781: SRR4435491.sra), (GSM2356795: SRR4435505.sra) and (GSM2356796: SRR4435506.sra)).And then, Use NCBI SRA Toolkit to extract fastq files with command like fastq-dump –split-3 SRR44354XX.sra. Eight files will be generated (SRR4435490_1.fastq, SRR4435490_2.fastq,SRR4435491_1.fastq, SRR4435491_2.fastq, SRR4435505_1.fastq, SRR4435505_2.fastq, SRR4435506_1.fastq, SRR4435506_2.fastq).</p>
+</div>
+<div id="script-6" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> Script</h3>
+<p><a href="./mm10RepCC/script.R">Download the script</a></p>
+<pre class="r"><code>library(esATAC)
+conclusion &lt;-
+   atacRepsPipe2(
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = &quot;your/own/data/path.fastq&quot;
+       caseFastqInput1=list(&quot;./SRR4435490_1.fastq&quot;,
+                            &quot;./SRR4435491_1.fastq&quot;),
+       # MODIFY: Change these paths to your own control files!
+       # e.g. fastqInput1 = &quot;your/own/data/path.fastq&quot;
+       caseFastqInput2=list(&quot;./SRR4435490_2.fastq&quot;,
+                            &quot;./SRR4435491_2.fastq&quot;),
+       # MODIFY: Change these paths to your own case files!
+       # e.g. fastqInput1 = &quot;your/own/data/path.fastq&quot;
+       ctrlFastqInput1=list(&quot;./SRR4435505_1.fastq&quot;,
+                            &quot;./SRR4435506_1.fastq&quot;),
+       # MODIFY: Change these paths to your own control files!
+       # e.g. fastqInput1 = &quot;your/own/data/path.fastq&quot;
+       ctrlFastqInput2=list(&quot;./SRR4435505_2.fastq&quot;,
+                            &quot;./SRR4435506_2.fastq&quot;),
+       # MODIFY: Set the genome for your data
+       genome = &quot;mm10&quot;,
+       refdir = &quot;~/ref&quot;,
+       threads=28,
+       motifPWM = getMotifPWM(motif.file = system.file(&quot;extdata&quot;, &quot;CTCF.txt&quot;, package=&quot;esATAC&quot;), is.PWM = FALSE))</code></pre>
+</div>
+<div id="result-7" class="section level3">
+<h3><span class="header-section-number">6.1.4</span> Result</h3>
+<p><a href="./mm10RepCC/esATAC_report/Report.html">Click here to see esATAC Report</a></p>
+</div>
 </div>
 </div>
 <div id="reference" class="section level1">
 <h1><span class="header-section-number">7</span> Reference</h1>
+<p>[1] Buenrostro, J. D., Giresi, P. G., Zaba, L. C., Chang, H. Y., &amp; Greenleaf, W. J. (2013). Transposition of native chromatin for fast and sensitive epigenomic profiling of open chromatin, DNA-binding proteins and nucleosome position. Nature methods, 10(12), 1213-1218.</p>
+<p>[2] Mognol GP, Spreafico R, Wong V, Scott-Browne JP et al. Exhaustion-associated regulatory regions in CD8+ tumor-infiltrating T cells. Proc Natl Acad Sci U S A 2017 Mar 28;114(13):E2776-E2785. PMID: 28283662</p>
 </div>
 
 
