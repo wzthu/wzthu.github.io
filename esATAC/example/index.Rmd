@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE,eval = FALSE)
 
 #Introduction
 
-This page is to exhibit examples and results for 4 preset pipeline in esATAC pakcage. For each pipeline, the toy example in the package document and at least one example run on representative dataset will be shown. In the examples, the directory for storing genome annotation is "~/ref". Only report files(HTML files and their relative files) will be linked and shown.
+This page is to exhibit examples and results for 4 preset pipelines in esATAC pakcage. For each pipeline, the toy example in the package document and at least one example run on representative dataset will be shown. In the examples, the directory for storing genome annotation is "~/ref". Only report files(HTML files and their relative files) will be linked and shown.
 
 #Single Sample
 
