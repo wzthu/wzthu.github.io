@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<tomtom version="5.1.0" release="Fri Oct 11 15:53:28 2019 -0700">
+  <model>
+    <command_line>tomtom -no-ssc -thresh 0.01 -o result/x0279/x0279.out result/x0279/x0279.meme ../../../JASPAR2020.txt</command_line>
+    <distance_measure value="ed"/>
+    <threshold type="qvalue">0.01</threshold>
+    <alphabet name="DNA" like="dna">
+      <letter id="A" symbol="A" complement="T" name="Adenine" colour="CC0000"/>
+      <letter id="C" symbol="C" complement="G" name="Cytosine" colour="0000CC"/>
+      <letter id="G" symbol="G" complement="C" name="Guanine" colour="FFB300"/>
+      <letter id="T" symbol="T" aliases="U" complement="A" name="Thymine" colour="008000"/>
+      <letter id="N" symbol="N" aliases="X." equals="ACGT" name="Any base"/>
+      <letter id="V" symbol="V" equals="ACG" name="Not T"/>
+      <letter id="H" symbol="H" equals="ACT" name="Not G"/>
+      <letter id="D" symbol="D" equals="AGT" name="Not C"/>
+      <letter id="B" symbol="B" equals="CGT" name="Not A"/>
+      <letter id="M" symbol="M" equals="AC" name="Amino"/>
+      <letter id="R" symbol="R" equals="AG" name="Purine"/>
+      <letter id="W" symbol="W" equals="AT" name="Weak"/>
+      <letter id="S" symbol="S" equals="CG" name="Strong"/>
+      <letter id="Y" symbol="Y" equals="CT" name="Pyrimidine"/>
+      <letter id="K" symbol="K" equals="GT" name="Keto"/>
+    </alphabet>
+    <strands>both</strands>
+    <background from="--query--" A="0.25" C="0.25" G="0.25" T="0.25"/>
+    <host>n01</host>
+    <when>Tue Dec  1 07:30:40 2020</when>
+  </model>
+  <query_dbs>
+    <db source="result/x0279/x0279.meme" name="x0279" loaded="1" excluded="0" last_mod_date="Tue Dec  1 07:30:40 2020"/>
+  </query_dbs>
+  <target_dbs>
+    <db source="../../../JASPAR2020.txt" name="JASPAR2020.txt" loaded="1011" excluded="0" last_mod_date="Fri Oct  9 07:50:57 2020"/>
+  </target_dbs>
+  <queries>
+    <motif db="0" id="0279_3416_1.2793_1.2440" length="8" nsites="998">
+      <pos A="0.040061" C="0.948879" G="0.00603045" T="0.00502955"/>
+      <pos A="0.00303075" C="0.993913" G="0.00202885" T="0.00102695"/>
+      <pos A="0.114242" C="0.771491" G="0.0631447" T="0.0511219"/>
+      <pos A="0.0260744" C="0.820584" G="0.0811789" T="0.0721618"/>
+      <pos A="0.409804" C="0.390768" G="0.0611409" T="0.138288"/>
+      <pos A="0.708078" C="0.0130627" G="0.198601" T="0.080258"/>
+      <pos A="0.167343" C="0.107228" G="0.604173" T="0.121255"/>
+      <pos A="0.190387" C="0.0881922" G="0.687331" T="0.0340896"/>
+    </motif>
+  </queries>
+  <targets>
+  </targets>
+  <matches>
+  </matches>
+  <runtime cycles="532567" seconds="0.533"/>
+</tomtom>
