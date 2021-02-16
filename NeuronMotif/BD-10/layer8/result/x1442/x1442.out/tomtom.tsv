@@ -1,7 +1,0 @@
-Query_ID	Target_ID	Optimal_offset	p-value	E-value	q-value	Overlap	Query_consensus	Target_consensus	Orientation
-1442_18624_11.5566_5.6641	MA0068.1	-38	8.73428e-09	8.83036e-06	1.76607e-05	30	GGGGGGGGGGGCGGGCCACACACATGTACACATGTGAACAGGTGTGTGGGGGGGGGGCCCCGAGAGCGGGTG	GGGGGGGGAGTGGAGTATTGGAAATTTTTC	-
-1442_18624_11.5566_5.6641	MA0615.1	-49	0.000136197	0.137695	0.0917965	17	GGGGGGGGGGGCGGGCCACACACATGTACACATGTGAACAGGTGTGTGGGGGGGGGGCCCCGAGAGCGGGTG	GAGTGTACGTAAGATGG	+
-
-# Tomtom (Motif Comparison Tool): Version 5.1.0 compiled on Oct  9 2020 at 08:11:46
-# The format of this file is described at http://meme-suite.org//doc/tomtom-output-format.html.
-# tomtom -no-ssc -o result/x1442/x1442.out result/x1442/x1442.meme ../../JASPAR2020.txt
