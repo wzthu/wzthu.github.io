@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Motifs of neurons in layer 3 (Basset model)
 
-```{r cars}
+```{r message=FALSE,warning=FALSE}
 
 
 tomtom<- list.files('./','tomtom.tsv',recursive=T)
