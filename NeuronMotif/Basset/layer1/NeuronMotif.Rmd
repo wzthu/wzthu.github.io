@@ -18,8 +18,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Motifs of neurons in layer 1 (Basset model)
 
-[tomtom.html]('result/tomtom.html')
-[tomtom.tsv]('result/tomtom.tsv')
-[tomtom.xml]('result/tomtom.xml')
+*[tomtom.html](result/tomtom.html)
+
+*[tomtom.tsv](result/tomtom.tsv)
+
+*[tomtom.xml](result/tomtom.xml)
 
 
